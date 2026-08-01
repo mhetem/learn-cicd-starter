@@ -20,4 +20,12 @@ jobs:
 
       - name: Build container
         run: ./scripts/buildprod.sh
-        
+
+      - name: Set up Google Cloud
+        uses: 'google-github-actions/setup-gcloud@v3.0.0'
+        with:
+          project_id: notely-504219
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      
+      - name: build and push container to GCP Artifact Registry
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-504219/notely-ar-repo/notely:latest
